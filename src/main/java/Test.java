@@ -10,15 +10,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
 public class Test {
-    static Node node;
-    static Element element;
-    static NodeList subList;
-    static String textContent;
-    static ExcelDocCreator excelDocCreator;
-    static NodeList prevSublist;
-    static int k = 0, statementCounter = 0;
-    //static int docSum = 0, counter = 0;
-    static int count = 0;
+    private static Node node;
+    private static Element element;
+    private static NodeList subList;
+    private static String textContent;
+    private static ExcelDocCreator excelDocCreator;
+    private static int k = 0;
+    private static int count = 0;
 
     public static void main(String[] args) {
         /////////////////////
@@ -40,9 +38,7 @@ public class Test {
             //optional, but recommended
             //read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
             document.getDocumentElement().normalize();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (IOException |SAXException |NullPointerException e) {
             e.printStackTrace();
         }
 
@@ -51,22 +47,19 @@ public class Test {
         NodeList CREDITDOCUMENTSList = document.getElementsByTagName("CREDITDOCUMENTS");
 
 
-        /*NodeList subList = null;*/
         System.out.println(STATEMENTBYList.getLength());
-        int counter = 0;
+        //int counter = 0;
 
         for (k = 0; k < STATEMENTBYList.getLength(); k++) {
 
             for (int j = 0; j < DEBETDOCUMENTSList.getLength(); j++) {
                 node = DEBETDOCUMENTSList.item(k).getChildNodes().item(j);
-                counter++;
-                specMeth(node, "DEBETDOCUMENTS", counter);
+                utilMeth(node, "DEBETDOCUMENTS");
             }
 
             for (int m = 0; m < CREDITDOCUMENTSList.getLength(); m++) {
                 node = CREDITDOCUMENTSList.item(k).getChildNodes().item(m);
-                counter++;
-                specMeth(node, "CREDITDOCUMENTS", counter);
+                utilMeth(node, "CREDITDOCUMENTS");
             }
             System.out.println("=====================================================================");
            /* for (int i = 0; i < STATEMENTBYList.item(k).getChildNodes().getLength(); i++) {
@@ -104,18 +97,17 @@ public class Test {
             System.out.println("=====================================================================");
         }
 
-         excelDocCreator.writeSheet();
+        excelDocCreator.writeSheet();
     }
 
-    public static void specMeth(Node node, String currentDoc, int counte) {
-
+    private static void utilMeth(Node node, String currentDoc) {
 
 
         if ((node != null) && (node.getNodeType() == Node.ELEMENT_NODE)) {
             element = (Element) node;
             subList = node.getChildNodes();
             textContent = element.getTextContent();
-        /*    switch (currentDoc) {
+            switch (currentDoc) {
                 case ("DEBETDOCUMENTS"):
                     System.out.println();
                     System.out.println("DEBETDOCUMENTS");
@@ -127,17 +119,14 @@ public class Test {
                     System.out.println("----------------------------------");
                     break;
 
-            }*/
+            }
 
             for (int f = 0; f < subList.getLength(); f++) {
                 node = subList.item(f);
                 String prevDoc = null;
                 switch (node.getNodeName()) {
                     case "DOCUMENTNUMBER":
-                        if (!node.getTextContent().equals(prevDoc)) {
-                            count++;
-                            prevDoc = node.getTextContent();
-                        }
+                        count++;
                         break;
                     case "DOCUMENTDATE":
                         System.out.println("DOCUMENTDATE " + node.getTextContent());
@@ -173,12 +162,9 @@ public class Test {
 
                         excelDocCreator.setCellData(node.getTextContent(), count, 5);
                         break;
-
                 }
             }
         }
-
-
     }
 }
 

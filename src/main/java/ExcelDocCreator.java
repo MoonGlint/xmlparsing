@@ -2,10 +2,8 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellReference;
 
 import java.io.FileNotFoundException;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -13,20 +11,17 @@ import java.io.IOException;
 // TODO: 24.03.2019 make table line visible
 // TODO: 24.03.2019 plug in log4g 2 or latest 
 // TODO: 24.03.2019 make some elements differ by color 
-// TODO: 24.03.2019 use only write path relative not absolute(относительный не абсолютный) 
+// TODO: 24.03.2019 use only write path relative not absolute
 // TODO: 24.03.2019  ask user about name of excel file created 
-// TODO: 24.03.2019 make this app instaleble 
+// TODO: 24.03.2019 make this app instalable
 
-public class ExcelDocCreator {
+class ExcelDocCreator {
     private static String XLS_FILE_NAME = "src\\main\\resources\\sheet.xls";
     private HSSFWorkbook workbook = new HSSFWorkbook();
     private HSSFSheet sheet = workbook.createSheet("FirstSheet");
-
     private FileOutputStream fileOut;
-    private HSSFRow rowNum;
-    static int k = 0;
 
-    public void createDefaultSheet() {
+    void createDefaultSheet() {
 
 
         CellStyle style = workbook.createCellStyle();
@@ -47,7 +42,7 @@ public class ExcelDocCreator {
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
         for (int i = 0; i < 800; i++) {
-          sheet.createRow((short) i);
+            sheet.createRow((short) i);
 
         }
         sheet.getRow(0).createCell(0).setCellValue("DATE");
@@ -73,15 +68,13 @@ public class ExcelDocCreator {
 
     // TODO: 24.03.2019 You should check the posibility of loosing some cells (rewriting it) 
 
-    public void setCellData(String data, int rowIndex, int columnNum) {
+    void setCellData(String data, int rowIndex, int columnNum) {
 
 
         sheet.getRow(rowIndex).createCell(columnNum).setCellValue(data);
         sheet.getRow(rowIndex).setHeightInPoints(30);
         //sheet.autoSizeColumn(columnNum);
-
         //CellStyle cellStyle=workbook.createCellStyle();
-
         //System.out.println(" table in excel file has been generated!" + k++);
         System.out.println("rowIndex " + rowIndex + " , columnNum " + columnNum);
 
@@ -89,7 +82,7 @@ public class ExcelDocCreator {
     }
 
 
-    public void writeSheet() {
+    void writeSheet() {
         try {
             fileOut = new FileOutputStream(XLS_FILE_NAME);
         } catch (FileNotFoundException e) {
