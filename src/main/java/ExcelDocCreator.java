@@ -66,7 +66,7 @@ class ExcelDocCreator {
 
     }
 
-    // TODO: 24.03.2019 You should check the posibility of loosing some cells (rewriting it) 
+    // TODO: 24.03.2019 You should check the posebility of loosing some cells (rewriting it)
 
     void setCellData(String data, int rowIndex, int columnNum) {
 
@@ -81,11 +81,26 @@ class ExcelDocCreator {
 
     }
 
+    void setCellData(double data, int rowIndex, int columnNum) {
+
+        Cell cell = sheet.getRow(rowIndex).createCell(columnNum);
+        cell.setCellType(CellType.NUMERIC);
+        cell.setCellValue(data);
+        sheet.getRow(rowIndex).setHeightInPoints(30);
+        //sheet.autoSizeColumn(columnNum);
+        //CellStyle cellStyle=workbook.createCellStyle();
+        //System.out.println(" table in excel file has been generated!" + k++);
+        System.out.println("rowIndex " + rowIndex + " , columnNum " + columnNum);
+
+
+    }
+
 
     void writeSheet() {
         try {
             fileOut = new FileOutputStream(XLS_FILE_NAME);
         } catch (FileNotFoundException e) {
+            System.err.println("!!!!!!!You should close your excel sheet and reboot class!!!!!!!!");
             e.printStackTrace();
         }
         try {

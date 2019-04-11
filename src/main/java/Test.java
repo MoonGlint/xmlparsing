@@ -38,7 +38,7 @@ public class Test {
             //optional, but recommended
             //read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
             document.getDocumentElement().normalize();
-        } catch (IOException |SAXException |NullPointerException e) {
+        } catch (IOException | SAXException | NullPointerException e) {
             e.printStackTrace();
         }
 
@@ -123,7 +123,6 @@ public class Test {
 
             for (int f = 0; f < subList.getLength(); f++) {
                 node = subList.item(f);
-                String prevDoc = null;
                 switch (node.getNodeName()) {
                     case "DOCUMENTNUMBER":
                         count++;
@@ -142,12 +141,19 @@ public class Test {
                         System.out.println("AMOUNT " + node.getTextContent());
                         switch (currentDoc) {
                             case ("DEBETDOCUMENTS"):
+                                try {
+                                    excelDocCreator.setCellData(Double.parseDouble(node.getTextContent().replace(',', '.')), count, 1);
 
-                                excelDocCreator.setCellData(node.getTextContent(), count, 1);
+                                } catch (NumberFormatException nf) {
+                                    nf.printStackTrace();
+                                }
                                 break;
                             case ("CREDITDOCUMENTS"):
-
-                                excelDocCreator.setCellData(node.getTextContent(), count, 2);
+                                try {
+                                    excelDocCreator.setCellData(Double.parseDouble(node.getTextContent().replace(',', '.')), count, 2);
+                                } catch (NumberFormatException nf) {
+                                    nf.printStackTrace();
+                                }
                                 break;
                         }
 
