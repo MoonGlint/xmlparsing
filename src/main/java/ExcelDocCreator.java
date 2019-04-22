@@ -9,7 +9,7 @@ import java.io.IOException;
 
 // TODO: 24.03.2019 start with testNg test 
 // TODO: 24.03.2019 make table line visible
-// TODO: 24.03.2019 plug in log4g 2 or latest 
+// TODO: 24.03.2019 plug in log4g 
 // TODO: 24.03.2019 make some elements differ by color 
 // TODO: 24.03.2019 use only write path relative not absolute
 // TODO: 24.03.2019  ask user about name of excel file created 
@@ -59,7 +59,7 @@ class ExcelDocCreator {
 
         for (int n = 0; n <= 10; n++) {
             sheet.getRow(0).getCell(n).setCellStyle(style);
-            sheet.autoSizeColumn(n);
+            //  sheet.autoSizeColumn(n);
         }
 
         System.out.println("Default table in excel file has been generated!");
@@ -69,13 +69,27 @@ class ExcelDocCreator {
     // TODO: 24.03.2019 You should check the posebility of loosing some cells (rewriting it)
 
     void setCellData(String data, int rowIndex, int columnNum) {
+        CellStyle style = workbook.createCellStyle();
+        style.setWrapText(true);
+       Row row = sheet.getRow(rowIndex);
+
+//  the limit of cell length of 50 characters
+        if (data.length() > 50) {
+            for (int i = 1; i <= Math.abs(data.length() / 50); i++) {
+                data = data.substring(0, i * 50) + "\n" + data.substring(i * 50);
+            }
+
+        }
+        Cell cell = row.createCell(columnNum);
+        row.setRowStyle(style);
+        cell.setCellStyle(style);
+        cell.setCellValue(data);
+       // sheet.autoSizeColumn(0);
 
 
-        sheet.getRow(rowIndex).createCell(columnNum).setCellValue(data);
-        sheet.getRow(rowIndex).setHeightInPoints(30);
-        //sheet.autoSizeColumn(columnNum);
-        //CellStyle cellStyle=workbook.createCellStyle();
-        //System.out.println(" table in excel file has been generated!" + k++);
+
+
+
         System.out.println("rowIndex " + rowIndex + " , columnNum " + columnNum);
 
 
@@ -86,9 +100,7 @@ class ExcelDocCreator {
         Cell cell = sheet.getRow(rowIndex).createCell(columnNum);
         cell.setCellType(CellType.NUMERIC);
         cell.setCellValue(data);
-        sheet.getRow(rowIndex).setHeightInPoints(30);
-        //sheet.autoSizeColumn(columnNum);
-        //CellStyle cellStyle=workbook.createCellStyle();
+
         //System.out.println(" table in excel file has been generated!" + k++);
         System.out.println("rowIndex " + rowIndex + " , columnNum " + columnNum);
 
@@ -97,6 +109,12 @@ class ExcelDocCreator {
 
 
     void writeSheet() {
+        for (int n = 0; n <= 10; n++) {
+
+            sheet.autoSizeColumn(n);
+        }
+
+
         try {
             fileOut = new FileOutputStream(XLS_FILE_NAME);
         } catch (FileNotFoundException e) {

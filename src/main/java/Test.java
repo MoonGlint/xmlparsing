@@ -62,38 +62,47 @@ public class Test {
                 utilMeth(node, "CREDITDOCUMENTS");
             }
             System.out.println("=====================================================================");
-           /* for (int i = 0; i < STATEMENTBYList.item(k).getChildNodes().getLength(); i++) {
+
+            // TODO: 21.04.2019 it should be in method
+
+            // TODO: 21.04.2019 changing stiles for different rows
+
+            for (int i = 0; i < STATEMENTBYList.item(k).getChildNodes().getLength(); i++) {
 
                 node = STATEMENTBYList.item(k).getChildNodes().item(i);
                 if ((node != null) && (node.getNodeType() == Node.ELEMENT_NODE)) {
+
                     element = (Element) node;
                     textContent = element.getTextContent();
                     switch (element.getNodeName()) {
 
                         case "STATEMENTDATE":
                             System.out.println("STATEMENTDATE " + element.getTextContent());
-                            excelDocCreator.setCellData(textContent, k + 1, 6);
+                            //columnNum was changed from 6 to 0
+                            excelDocCreator.setCellData(textContent, ++count, 0);
                             break;
                         case "OPENINGBALANCE":
                             System.out.println("OPENINGBALANCE " + element.getTextContent());
-                            excelDocCreator.setCellData(textContent, k + 1, 7);
+                            excelDocCreator.setCellData(textContent, count, 7);
                             break;
 
                         case "CLOSINGBALANCE":
                             System.out.println("CLOSINGBALANCE " + element.getTextContent());
-                            excelDocCreator.setCellData(textContent, k + 1, 10);
+                            excelDocCreator.setCellData(textContent, count, 10);
                             break;
+                            //columnNum was changed from 8 to 1
                         case "DEBETTURNOVER":
                             System.out.println("DEBETTURNOVER " + element.getTextContent());
-                            excelDocCreator.setCellData(textContent, k + 1, 8);
+                            excelDocCreator.setCellData(textContent, count, 1);
                             break;
+                            // columnNum was changed from 9 to 2
                         case "CREDITTURNOVER":
                             System.out.println("CREDITTURNOVER " + element.getTextContent());
-                            excelDocCreator.setCellData(textContent, k + 1, 9);
+                            excelDocCreator.setCellData(textContent, count, 2);
                             break;
                     }
                 }
-            }*/
+            }
             System.out.println("=====================================================================");
         }
 
@@ -102,7 +111,7 @@ public class Test {
 
     private static void utilMeth(Node node, String currentDoc) {
 
-
+// TODO: 21.04.2019 create logs here :
         if ((node != null) && (node.getNodeType() == Node.ELEMENT_NODE)) {
             element = (Element) node;
             subList = node.getChildNodes();
